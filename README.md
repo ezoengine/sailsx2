@@ -15,32 +15,39 @@
 
 
 Step1. 後端建立Model
-===================
+--
 
 你必須先在後端有建立Model才能使用，建立Model方式很簡單，一行指令就可以完成
-
+<pre>
 > sails generate api Item
+</pre>
 
 Step2. 前端使用Model
-===================
+-------------------
 
 先建立用來完成Model 建立、修改、查詢、刪除的物件 itemIO
-var itemIO = new x2('http://localhost:1337/Item',
+
+ <pre>
+ var itemIO = new x2('http://localhost:1337/Item',
 	{
 		message:function(msg){
 		   // 後端通知異動更新...
 		}
 	});
+</pre>
 
 //建立Item物件
+<pre>
 var item = new Item( {name: 'Batman' , age: 37} );
-
+</pre>
 //保存到後端
+<pre>
 itemIO.create(item , function(item){
 	console.log('created',item);
 });
-
+</pre>
 //修改Item物件
+<pre>
 item.set('age',38);
 itemIO.update(item);
-
+</pre>

@@ -1,0 +1,23 @@
+<html>
+	<head>
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js">
+		</script>
+		<script src="http://localhost/sailsx2.js"></script>
+	</head>
+	<body>
+		<button onclick="go()">Go</button>
+	<script>
+	    var itemIO = new x2("http://localhost/Item",{
+	    	message:function(msg){
+				console.log('incoming',msg);	    		
+	    	}
+	    });
+
+	    function go(){
+	    	var item = new Item({'name':'marty','session':'13:40'});
+	   		itemIO.create(item);
+	    }
+		</script>
+	</body>
+
+</html>

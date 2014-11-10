@@ -1,12 +1,17 @@
-    |>    
-  \___/  
-
-
+ 說明
+=====
 為了方便更新Model時，前端可以同步收到通知更新，所以寫了 sailsx2.js 
 來整合Socket.IO進行Model更新通知
 
 
+使用範例
+=======
+![alt tag](http://i.imgur.com/R3jSugp.png)
+
+
+
 使用方式如下
+==========
 
 
 Step1. 後端建立Model

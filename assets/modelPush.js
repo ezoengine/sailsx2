@@ -828,6 +828,7 @@ var io="undefined"==typeof module?{}:module.exports;(function(){(function(a,b){v
 modelAction = {};
 
 function registrySocketIO(url,modelName,xIO,action){
+	if(typeof action !='object') {return;}
 	modelName = modelName.toLowerCase();
 	modelAction[modelName] = action;
 	function registryAction(){

@@ -60,8 +60,17 @@ var ModelPrototype = function(info) {
 };
 
 function xIO(url,action){
+	if(url.indexOf('http://')!=0){
+		url = "http://"+ url;
+	}
+	if(url.lastIndexOf(':')==4){
+		var urlArray = url.split('/');
+		urlArray[2] += ":80";
+		url = urlArray.toString().replace(/,/g,'/');
+	}
 	var pos = url.lastIndexOf('/');
 	var modelName = url.substring(pos+1);
+	modelName = modelName.charAt(0).toUpperCase() + modelName.slice(1).toLowerCase();
 	url = url.substr(0,pos);
 	registrySocketIO(url,modelName,this,action);
 	window[modelName] = ModelPrototype;

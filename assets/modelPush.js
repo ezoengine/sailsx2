@@ -928,9 +928,13 @@ function xIO(url,action){
 			my.post('create',model,callback);
 		},
 		find:function(model,callback){
-			var id =  typeof model=='string' || typeof model=='number'
+			var qryString =  typeof model=='string' || typeof model=='number'
 				? ''+model:model.info().id;
-			$.post(my.url+'/'+id).always(function(resp){
+			if(qryString.indexOf('=')>0){
+				qryString = 'find?'+qryString;
+			}
+
+			$.post(my.url+'/'+qryString).always(function(resp){
 				if(typeof callback === "function"){
 					callback(my.clone(resp));
 				}
@@ -984,3 +988,51 @@ function xIO(url,action){
 }
 window[name] = xIO;
 })('ModelPush');
+
+// MyChannel
+(function(name){
+	var MyChannel = function(name,callback){
+		var isConnect = false;
+		var presend = [];
+    	var id;
+    	var info = {name:name};
+        var mp = new ModelPush("http://192.155.93.221/channel", {
+            connect: function() {
+                console.log('"' + name + '\" channel is already connected');
+                for(var data in presend){
+	            	var pushData = {id:id,name:name,data:presend[data]};
+	            	mp.update(new Channel(pushData));                	
+                }
+                isConnect = true;
+            },
+            updated: function(model) {
+            	if(model.id==id && typeof callback =='function'){
+            		callback(model.data);
+            	}
+            }
+        });
+        mp.find('name='+name, function(data) {
+            if(data.info().length==0){
+            	mp.create(new Channel(info),function(data){
+            		id = data.id;
+            	});
+            }else {
+        		id = data[0].id;
+            }
+        });
+        q = mp;
+        return {
+            name: name,
+            id:id,
+            push: function(data){
+            	if(!isConnect){
+            		presend.push(data);
+            	}else{
+	            	var pushData = {id:id,name:name,data:data};
+	            	mp.update(new Channel(pushData));
+            	}
+            }
+        }
+    }
+    window[name] = MyChannel;
+})('MyChannel');
